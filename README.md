@@ -1,89 +1,78 @@
-# 🎮 Valorant Stats Discord Bot
+# 🎮 Valorant Stats Tracker — Discord Bot
 
-A Discord bot that lets players look up live Valorant stats, ranks, and match history using slash commands. Built with Python and discord.py, powered by the [Henrik Valorant API](https://docs.henrikdev.xyz/valorant).
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python)
+![discord.py](https://img.shields.io/badge/discord.py-2.3-5865F2?style=flat-square&logo=discord)
+![Railway](https://img.shields.io/badge/Deployed-Railway-black?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
----
-
-## ✨ Features
-
-| Command | Description |
-|---|---|
-| `/stats name tag` | Rank, RR, ELO, peak rank, and last 5 matches |
-| `/leaderboard-add name tag` | Register your account to the server |
-| `/leaderboard` | See your server's ranked leaderboard |
-| `/help` | All available commands |
+A Discord bot that lets players look up live Valorant stats, compare with friends, and track a server leaderboard — all through slash commands. Deployed 24/7 on Railway.
 
 ---
 
 ## 📸 Preview
 
-<img width="657" height="660" alt="image" src="https://github.com/user-attachments/assets/d51ad2bf-5d2a-4ec6-8ba0-989aacdbf956" />
+### `/stats` — Player stats with recent match history
+![stats](stats.png)
 
+### `/compare` — Head to head comparison
+![compare](compare.png)
+
+### `/leaderboard` — Server leaderboard
+![leaderboard](leaderboard.png)
+
+### `/help` — All commands
+![help](help.png)
+
+---
+
+## ✨ Commands
+
+| Command | Description |
+|---|---|
+| `/stats Name#Tag` | Rank, KD, ACS, ADR and last 5 matches with map, agent, W/L |
+| `/compare Name#Tag Name#Tag` | Head to head with ✅ ❌ stat winners and overall winner |
+| `/leaderboard-add Name#Tag` | Register your Valorant account to this server's leaderboard |
+| `/leaderboard` | See the server's ranked leaderboard |
+| `/leaderboard-remove` | Remove yourself from the leaderboard |
+| `/help` | All available commands |
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Python 3.11+**
+- **Python 3.11** — core language
 - **discord.py 2.3** — slash commands, embeds, Cog architecture
 - **aiohttp** — async HTTP requests to the Valorant API
-- **python-dotenv** — secure token management
-- **Henrik's Valorant API** — unofficial but reliable Valorant data
+- **aiosqlite** — async SQLite database for leaderboard persistence
+- **asyncio.gather()** — concurrent API calls for fast responses
+- **python-dotenv** — secure token management via environment variables
+- **Rengar API** — free Valorant API, no auth required (reng.ar)
+- **Railway** — 24/7 cloud deployment with GitHub CI/CD
 
 ---
 
-## 🚀 Setup & Running Locally
+## 🚀 Running Locally
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/YOUR_USERNAME/valorant-bot.git
+git clone https://github.com/sandivinity/valorant-bot.git
 cd valorant-bot
 ```
 
-### 2. Create a virtual environment (optional but recommended)
-```bash
-python -m venv venv
-source venv/bin/activate      # Mac/Linux
-venv\Scripts\activate         # Windows
-```
-
-### 3. Install dependencies
+### 2. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Set up your bot token
-```bash
-cp .env.example .env
+### 3. Create a `.env` file
 ```
-Then open `.env` and replace `your_discord_bot_token_here` with your actual token.
+DISCORD_TOKEN=your_token_here
+```
 
-### 5. Run the bot
+### 4. Run the bot
 ```bash
 python main.py
 ```
-
-You should see:
-```
-✅ Logged in as YourBot#1234
-✅ Synced 4 slash command(s)
-✅ Loaded: commands.stats
-✅ Loaded: commands.leaderboard
-✅ Loaded: commands.help
-```
-
----
-
-## 🔑 Getting Your Discord Bot Token
-
-1. Go to [discord.com/developers/applications](https://discord.com/developers/applications)
-2. Click **New Application** → give it a name
-3. Click **Bot** in the left sidebar → **Reset Token** → copy it
-4. Under **Privileged Gateway Intents**, enable **Message Content Intent**
-5. Go to **OAuth2 → URL Generator**:
-   - Scopes: `bot`, `applications.commands`
-   - Bot Permissions: `Send Messages`, `Embed Links`, `Use Slash Commands`
-6. Copy the generated URL → open it in your browser → add the bot to your server
 
 ---
 
@@ -91,36 +80,32 @@ You should see:
 
 ```
 valorant-bot/
-├── main.py                  # Bot startup, loads all Cogs
-├── requirements.txt         # Python package list
-├── .env.example             # Template for secrets (copy to .env)
-├── .gitignore               # Prevents secrets from being pushed
+├── main.py                  # Bot startup, initializes DB and agent cache
+├── requirements.txt
+├── Procfile                 # Railway deployment config
 │
-├── commands/                # Each file = a group of related commands
-│   ├── __init__.py
+├── commands/
 │   ├── stats.py             # /stats command
-│   ├── leaderboard.py       # /leaderboard and /leaderboard-add
-│   └── help.py              # /help command
+│   ├── leaderboard.py       # /leaderboard commands
+│   ├── compare.py           # /compare command
+│   └── helpcmd.py           # /help command
 │
-├── utils/                   # Reusable helper modules
-│   ├── __init__.py
-│   ├── api.py               # All Valorant API calls (data layer)
-│   └── embeds.py            # Discord embed builders (presentation layer)
-│
-└── data/                    # Auto-created at runtime
-    └── leaderboard.json     # Per-server leaderboard storage
+└── utils/
+    ├── api.py               # Valorant API calls + agent UUID cache
+    ├── embeds.py            # Discord embed builders
+    └── database.py          # SQLite database layer
 ```
 
 ---
 
-## 🧠 Key Concepts Used
+## 🧠 Key Concepts
 
-- **Async/Await** — Non-blocking API calls so the bot never freezes
-- **Discord Cogs** — Modular command architecture (like controllers in MVC)
-- **Slash Commands** — Modern Discord UX with autocomplete and input validation
-- **REST API Integration** — Fetching and parsing JSON from a 3rd-party API
-- **Data Persistence** — JSON file storage for leaderboard data
-- **Environment Variables** — Secure secret management with `.env`
+- **Async/Await** — non-blocking API calls so the bot never freezes
+- **Discord Cogs** — modular command architecture
+- **Concurrent requests** — `asyncio.gather()` fires multiple API calls simultaneously
+- **SQLite** — real persistent database storage with `aiosqlite`
+- **Agent UUID resolution** — fetches and caches agent names from valorant-api.com on startup
+- **Environment variables** — secure token management, never hardcoded
 
 ---
 
@@ -130,7 +115,4 @@ MIT — free to use, modify, and distribute.
 
 ---
 
-> Built by [Your Name](https://github.com/YOUR_USERNAME) — 1st year Software Engineering student 🎓
-=======
-# valorant-bot
-A Discord bot that lets players look up live Valorant stats, ranks, and match history using slash commands. Built with Python and discord.py.
+> Built by [divinity](https://github.com/sandivinity) — 1st year Software Engineering student 🎓
