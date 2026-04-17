@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🎮 Valorant Stats Discord Bot
 
 A Discord bot that lets players look up live Valorant stats, ranks, and match history using slash commands. Built with Python and discord.py, powered by the [Henrik Valorant API](https://docs.henrikdev.xyz/valorant).
