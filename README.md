@@ -134,4 +134,3 @@ MIT — free to use, modify, and distribute.
 =======
 # valorant-bot
 A Discord bot that lets players look up live Valorant stats, ranks, and match history using slash commands. Built with Python and discord.py.
->>>>>>> 19a31dff1b985dbda8b4ef589154a16a2b4c9a02
