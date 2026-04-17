@@ -17,8 +17,8 @@ A Discord bot that lets players look up live Valorant stats, ranks, and match hi
 
 ## 📸 Preview
 
-> *(Add screenshots of your bot's embeds here after running it!)*  
-> Tip: Use `/stats name:TenZ tag:NA1` and screenshot the embed.
+<img width="657" height="660" alt="image" src="https://github.com/user-attachments/assets/d51ad2bf-5d2a-4ec6-8ba0-989aacdbf956" />
+
 
 ---
 
